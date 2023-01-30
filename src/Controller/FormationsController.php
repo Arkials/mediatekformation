@@ -21,6 +21,8 @@ class FormationsController extends AbstractController {
      */
     private $formationRepository;
     
+    private const PFORMATIONS = "pages/formations.html.twig";
+    
     /**
      * 
      * @var CategorieRepository
@@ -39,12 +41,13 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
     }
 
+   
     /**
      * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
      * @param type $champ
@@ -53,32 +56,43 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
+        if($table==""){
+            $formations = $this->formationRepository->findAllOrderBySameTable($champ, $ordre);
+        }
+        else{
+            $formations = $this->formationRepository->findAllOrderByDifferentTable($champ, $ordre, $table);
+        }
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
-    }     
+    }
+    
+    
     
     /**
      * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
      * @param type $champ
      * @param Request $request
-     * @param type $table
      * @return Response
      */
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
-        $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
+        if($table==""){
+            $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+        }
+        else{
+            $formations = $this->formationRepository->findByContainValueDifferentTable($champ, $valeur, $table);
+        }
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(self::PFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
-            'table' => $table
         ]);
-    }  
+    }
+    
     
     /**
      * @Route("/formations/formation/{id}", name="formations.showone")
@@ -87,7 +101,7 @@ class FormationsController extends AbstractController {
      */
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
-        return $this->render("pages/formation.html.twig", [
+        return $this->render(self::PFORMATIONS, [
             'formation' => $formation
         ]);        
     }   

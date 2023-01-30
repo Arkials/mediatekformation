@@ -16,6 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
+    CONST DATE_PUBLICATION ='f.publishedAt';
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
@@ -40,26 +41,36 @@ class FormationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne toutes les formations triées sur un champ
+     * Retourne toutes les formations triées sur un champ d'une table autre que formation
      * @param type $champ
      * @param type $ordre
-     * @param type $table si $champ dans une autre table
+     * @param type $table
      * @return Formation[]
      */
-    public function findAllOrderBy($champ, $ordre, $table=""): array{
-        if($table==""){
-            return $this->createQueryBuilder('f')
-                    ->orderBy('f.'.$champ, $ordre)
-                    ->getQuery()
-                    ->getResult();
-        }else{
+    public function findAllOrderByDifferentTable($champ, $ordre, $table): array{
             return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')
                     ->orderBy('t.'.$champ, $ordre)
                     ->getQuery()
                     ->getResult();            
-        }
+        }    
+    
+        /**
+         * Retourne les formations triées sur le champ de la table formation
+         * @param type $champ
+         * @param type $ordre
+         * @return array
+         */
+    public function findAllOrderBySameTable($champ,$ordre): array{
+        
+        return $this->createQueryBuilder('f')
+                   ->orderBy('f.'.$champ, $ordre)
+                   ->getQuery()
+                   ->getResult();
+        
     }
+    
+
 
     /**
      * Enregistrements dont un champ contient une valeur
@@ -69,27 +80,34 @@ class FormationRepository extends ServiceEntityRepository
      * @param type $table si $champ dans une autre table
      * @return Formation[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
-        if($valeur==""){
-            return $this->findAll();
-        }
-        if($table==""){
-            return $this->createQueryBuilder('f')
-                    ->where('f.'.$champ.' LIKE :valeur')
-                    ->orderBy('f.publishedAt', 'DESC')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->getQuery()
-                    ->getResult();            
-        }else{
-            return $this->createQueryBuilder('f')
-                    ->join('f.'.$table, 't')                    
-                    ->where('t.'.$champ.' LIKE :valeur')
-                    ->orderBy('f.publishedAt', 'DESC')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->getQuery()
-                    ->getResult();                   
+    public function findByContainValue($champ, $valeur): array{
+        
+        return $this->createQueryBuilder('f')
+                ->where('f.'.$champ.' LIKE :valeur')
+                ->orderBy(self::DATE_PUBLICATION, 'DESC')
+                ->setParameter('valeur', '%'.$valeur.'%')
+                ->getQuery()
+                ->getResult();                          
         }       
-    }    
+        
+        /**
+         * Enregistrements dont un champ, d'une autre table, contient une valeur
+         * @param type $champ
+         * @param type $valeur
+         * @param type $table
+         * @return array
+         */
+    public function findByContainValueDifferentTable($champ, $valeur, $table): array{
+        
+        return $this->createQueryBuilder('f')
+            ->join('f.'.$table, 't')                    
+            ->where('t.'.$champ.' LIKE :valeur')
+            ->orderBy(self::DATE_PUBLICATION, 'DESC')
+            ->setParameter('valeur', '%'.$valeur.'%')
+            ->getQuery()
+            ->getResult();   
+        
+    }
     
     /**
      * Retourne les n formations les plus récentes
@@ -98,7 +116,7 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
-                ->orderBy('f.publishedAt', 'DESC')
+                ->orderBy(self::DATE_PUBLICATION, 'DESC')
                 ->setMaxResults($nb)     
                 ->getQuery()
                 ->getResult();
@@ -114,7 +132,7 @@ class FormationRepository extends ServiceEntityRepository
                 ->join('f.playlist', 'p')
                 ->where('p.id=:id')
                 ->setParameter('id', $idPlaylist)
-                ->orderBy('f.publishedAt', 'ASC')   
+                ->orderBy(self::DATE_PUBLICATION, 'ASC')   
                 ->getQuery()
                 ->getResult();        
     }
