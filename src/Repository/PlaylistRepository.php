@@ -18,8 +18,8 @@ class PlaylistRepository extends ServiceEntityRepository
 {
     Const PLAYLIST_ID = "p.id";
     Const PLAYLIST_ID_ID = "p.id id";
-    Const PLAYLIST_NAME_NAME= "p.name name";
     Const PLAYLIST_NAME="p.name";
+    Const PLAYLIST_NAME_NAME= "p.name name";
     Const PLAYLIST_FORMATION = "p.formations";
     Const CATEGORY_NAME ="c.name";
     Const CATEGORY_NAME_CATEGORIE= "c.name categoriename";
@@ -55,9 +55,9 @@ class PlaylistRepository extends ServiceEntityRepository
      */ 
     public function findAllOrderByName($ordre): array {
         return $this->createQueryBuilder('p')
-                    ->leftjoin('p.formations', 'f')
-                    ->groupBy('p.id')
-                    ->orderBy('p.name', $ordre)
+                    ->leftjoin(self::PLAYLIST_FORMATION, 'f')
+                    ->groupBy(self::PLAYLIST_ID)
+                    ->orderBy(self::PLAYLIST_NAME, $ordre)
                     ->getQuery()
                     ->getResult();
     }
@@ -70,8 +70,8 @@ class PlaylistRepository extends ServiceEntityRepository
 
     public function findAllOrderByNbFormations($ordre): array {
         return $this->createQueryBuilder('p')
-                    ->leftjoin('p.formations', 'f')
-                    ->groupBy('p.id')
+                    ->leftjoin(self::PLAYLIST_FORMATION, 'f')
+                    ->groupBy(self::PLAYLIST_ID)
                     ->orderBy('count(f.title)', $ordre)
                     ->getQuery()
                     ->getResult();
@@ -79,23 +79,23 @@ class PlaylistRepository extends ServiceEntityRepository
     public function findByContainValueSameTable($champ, $valeur): array {
         return $this
                     ->createQueryBuilder('p')
-                    ->leftjoin('p.formations', 'f')
+                    ->leftjoin(self::PLAYLIST_FORMATION, 'f')
                     ->where('p.' . $champ . ' LIKE :valeur')
                     ->setParameter('valeur', '%' . $valeur . '%')
-                    ->groupBy('p.id')
-                    ->orderBy('p.name', 'ASC')
+                    ->groupBy(self::PLAYLIST_ID)
+                    ->orderBy(self::PLAYLIST_NAME, 'ASC')
                     ->getQuery()
                     ->getResult();
         
     }
     public function findByContainValueDifferentTable($champ, $valeur): array {
         return $this->createQueryBuilder('p')
-           ->leftjoin('p.formations', 'f')
-           ->leftjoin('f.categories', 'c')
+           ->leftjoin(self::PLAYLIST_FORMATION, 'f')
+           ->leftjoin(self::FORMATION_CATEGORIES, 'c')
            ->where('c.' . $champ . ' LIKE :valeur')
            ->setParameter('valeur', '%' . $valeur . '%')
-           ->groupBy('p.id')
-           ->orderBy('p.name', 'ASC')
+           ->groupBy(self::PLAYLIST_ID)
+           ->orderBy(self::PLAYLIST_NAME, 'ASC')
            ->getQuery()
            ->getResult();
     }

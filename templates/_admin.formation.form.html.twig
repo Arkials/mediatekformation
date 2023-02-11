@@ -1,0 +1,36 @@
+
+   {{ form_start(formformation) }}
+        <div class="row">
+            <div class="row">
+                <div class="col">
+                    {{ form_row(formformation.publishedAt) }}                                                  
+                    {{ form_row(formformation.title) }}
+                    {{ form_row(formformation.videoId) }}            
+                    {{ form_row(formformation.playlist) }}                
+                </div>
+                
+                <div class="col text-center" >
+                <!-- emplacement image -->
+                <img src="{{ formation.Picture }}"alt="image formation">
+                <p>Image correspondant à l'ID de la vidéo <br>
+                   (Changer l'ID pour changer l'image)
+                </p>
+
+                
+                
+            </div>
+                
+
+            </div>
+            <div class ="row">               
+                
+                {{ form_row(formformation.description) }}
+                {{ form_row(formformation.categories) }}
+            
+            </div>
+  
+           
+        </div>        
+    {{ form_end(formformation) }}
+    
+

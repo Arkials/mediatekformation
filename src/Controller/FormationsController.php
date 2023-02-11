@@ -22,6 +22,7 @@ class FormationsController extends AbstractController {
     private $formationRepository;
     
     private const PFORMATIONS = "pages/formations.html.twig";
+    private const RFORMATION ="formations";
     
     /**
      * 
@@ -78,19 +79,23 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function findAllContain($champ, Request $request, $table=""): Response{
-        $valeur = $request->get("recherche");
-        if($table==""){
-            $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))){
+            $valeur = $request->get("recherche");
+            if($table==""){
+                $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+            }
+            else{
+                $formations = $this->formationRepository->findByContainValueDifferentTable($champ, $valeur, $table);
+            }
+            $categories = $this->categorieRepository->findAll();
+            return $this->render(self::PFORMATIONS, [
+                'formations' => $formations,
+                'categories' => $categories,
+                'valeur' => $valeur,
+            ]);
         }
-        else{
-            $formations = $this->formationRepository->findByContainValueDifferentTable($champ, $valeur, $table);
-        }
-        $categories = $this->categorieRepository->findAll();
-        return $this->render(self::PFORMATIONS, [
-            'formations' => $formations,
-            'categories' => $categories,
-            'valeur' => $valeur,
-        ]);
+                return $this->redirectToRoute(self::RFORMATION);
+
     }
     
     

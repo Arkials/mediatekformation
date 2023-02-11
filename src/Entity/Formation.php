@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Playlist;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\FormationRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,11 +28,14 @@ class Formation
     private $id;
 
     /**
+     * @Assert\LessThanOrEqual("now")     
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $publishedAt;
 
     /**
+     * @Assert\NotBlank()
+
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $title;
@@ -41,6 +46,7 @@ class Formation
     private $description;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $videoId;
@@ -48,9 +54,10 @@ class Formation
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="formations")
      */
-    private $playlist;
+    private $playlist;   
 
     /**
+     * @Assert\NotBlank()
      * @ORM\ManyToMany(targetEntity=Categorie::class, inversedBy="formations")
      */
     private $categories;
@@ -134,6 +141,12 @@ class Formation
     {
         return $this->playlist;
     }
+    
+    public function getPlaylistName(): ?string
+    {
+        return $this->playlist->getName();
+    }
+   
 
     public function setPlaylist(?Playlist $playlist): self
     {
@@ -141,6 +154,8 @@ class Formation
 
         return $this;
     }
+    
+
 
     /**
      * @return Collection<int, Categorie>
