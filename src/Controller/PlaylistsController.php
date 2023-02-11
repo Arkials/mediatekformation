@@ -70,11 +70,15 @@ class PlaylistsController extends AbstractController {
     public function sort($champ, $ordre): Response{
         switch($champ){
             case "name": 
-                    $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+                $playlists = $this->playlistRepository->findAllOrderByName($ordre);
                 break;
             case "nbformations":
-                    $playlists = $this->playlistRepository->findAllOrderByNbFormations($ordre);
+                $playlists = $this->playlistRepository->findAllOrderByNbFormations($ordre);
                 break; 
+            default:
+                $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+
+                break;
             
         }
                 
