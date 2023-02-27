@@ -1,0 +1,19 @@
+   {{ form_start(formPlaylist) }}
+        
+            <div class ="row">               
+                
+                {{ form_row(formPlaylist.name) }}
+                
+                {{ form_row(formPlaylist.description) }}
+                
+                {% if formPlaylist.formations is defined %}
+                    {{ form_row(formPlaylist.formations) }}
+                {% endif %}
+
+
+            
+            </div>
+                   
+    {{ form_end(formPlaylist) }}
+    
+

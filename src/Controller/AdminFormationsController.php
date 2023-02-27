@@ -53,7 +53,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
-     * @Route("/admin/ajout", name="admin.formation.ajout")
+     * @Route("/admin/formation/ajout", name="admin.formation.ajout")
      * @param Request $request
      * @return Response
      */
@@ -69,7 +69,7 @@ class AdminFormationsController extends AbstractController {
 
         return $this->render(self::P_FORMATION_AJOUT, [
             'formation' => $formation,
-            'formformation' => $formFormation->createView()
+            'formFormation' => $formFormation->createView()
         ]);        
     }    
     
@@ -122,7 +122,7 @@ public function edit(Formation $formation, Request $request): Response{
 
     return $this->render(self::P_FORMATION_EDIT, [
         'formation' => $formation,
-        'formformation' => $formFormation->createView()
+        'formFormation' => $formFormation->createView()
     ]);        
 }
         
