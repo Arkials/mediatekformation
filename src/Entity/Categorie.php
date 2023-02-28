@@ -50,7 +50,8 @@ class Categorie
 
         return $this;
     }
-
+    
+    
     /**
      * @return Collection<int, Formation>
      */

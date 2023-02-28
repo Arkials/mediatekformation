@@ -53,6 +53,10 @@ class CategorieRepository extends ServiceEntityRepository
                 ->orderBy('c.name', 'ASC')   
                 ->getQuery()
                 ->getResult();        
+    }
+
+        public function checkNameAvailable (Categorie $categorie):bool {
+                return (is_null($this->findOneBy(['name'=>$categorie->getName()])));
     }    
 
 }
