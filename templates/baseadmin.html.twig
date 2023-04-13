@@ -1,7 +1,13 @@
 {% extends "base.html.twig" %}
 
 {% block stylesheets %}{% endblock %}
+
 {% block top %}
+    <div class="container text-end">
+        {% if app.user %}
+            <a href="{{ path('logout')}}">se déconnecter</a>
+        {% endif %} 
+        </div>
     <div class="container">
         <!-- titre -->
         <div class="text-left">
