@@ -66,12 +66,8 @@ class FormationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('f')
                    ->orderBy('f.'.$champ, $ordre)
                    ->getQuery()
-                   ->getResult();
-        
-    }
-    
-
-
+                   ->getResult();        
+    }   
     /**
      * Enregistrements dont un champ contient une valeur
      * ou tous les enregistrements si la valeur est vide
@@ -105,8 +101,7 @@ class FormationRepository extends ServiceEntityRepository
             ->orderBy(self::DATE_PUBLICATION, 'DESC')
             ->setParameter('valeur', '%'.$valeur.'%')
             ->getQuery()
-            ->getResult();   
-        
+            ->getResult();           
     }
     
     /**

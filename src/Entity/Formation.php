@@ -35,7 +35,6 @@ class Formation
 
     /**
      * @Assert\NotBlank()
-
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $title;

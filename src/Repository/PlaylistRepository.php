@@ -30,6 +30,12 @@ class PlaylistRepository extends ServiceEntityRepository
         parent::__construct($registry, Playlist::class);
     }
 
+    /**
+     * Ajout d'une playlist
+     * @param Playlist $entity
+     * @param bool $flush
+     * @return void
+     */
     public function add(Playlist $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -39,6 +45,12 @@ class PlaylistRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Suppression d'une playlist
+     * @param Playlist $entity
+     * @param bool $flush
+     * @return void
+     */
     public function remove(Playlist $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -76,6 +88,12 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();
     }    
+    /**
+     * Retourne les playlists ayant une valeur correspondant au champ
+     * @param type $champ
+     * @param type $valeur
+     * @return array     
+     */
     public function findByContainValueSameTable($champ, $valeur): array {
         return $this
                     ->createQueryBuilder('p')
@@ -88,6 +106,12 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->getResult();
         
     }
+    /**
+     * Retourne les playlists correspondant à la valeur d'une autre table
+     * @param type $champ
+     * @param type $valeur
+     * @return array
+     */
     public function findByContainValueDifferentTable($champ, $valeur): array {
         return $this->createQueryBuilder('p')
            ->leftjoin(self::PLAYLIST_FORMATION, 'f')

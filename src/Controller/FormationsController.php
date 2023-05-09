@@ -22,7 +22,8 @@ class FormationsController extends AbstractController {
     private $formationRepository;
     
     private const PFORMATIONS = "pages/formations.html.twig";
-    private const RFORMATION ="formations";
+    private const RFORMATIONS ="formations";
+    private const PFORMATION ="pages/formation.html.twig";
     
     /**
      * 
@@ -68,25 +69,25 @@ class FormationsController extends AbstractController {
             'formations' => $formations,
             'categories' => $categories
         ]);
-    }
-    
-    
+    }        
     
     /**
-     * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
+     * @Route("formations/recherche/{champ}/{table}", name="formations.findallcontain")
      * @param type $champ
      * @param Request $request
      * @return Response
      */
     public function findAllContain($champ, Request $request, $table=""): Response{
-        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))){
+        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token')) && $request->get("recherche")!=null){
             $valeur = $request->get("recherche");
             if($table==""){
                 $formations = $this->formationRepository->findByContainValue($champ, $valeur);
             }
             else{
+
                 $formations = $this->formationRepository->findByContainValueDifferentTable($champ, $valeur, $table);
             }
+
             $categories = $this->categorieRepository->findAll();
             return $this->render(self::PFORMATIONS, [
                 'formations' => $formations,
@@ -94,7 +95,9 @@ class FormationsController extends AbstractController {
                 'valeur' => $valeur,
             ]);
         }
-                return $this->redirectToRoute(self::RFORMATION);
+        else{
+            return $this->redirectToRoute(self::RFORMATIONS);            
+        }        
 
     }
     
@@ -106,7 +109,7 @@ class FormationsController extends AbstractController {
      */
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
-        return $this->render(self::PFORMATIONS, [
+        return $this->render(self::PFORMATION, [
             'formation' => $formation
         ]);        
     }   

@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controleur des formations
  *
- * @author emds
  */
 class AdminFormationsController extends AbstractController {
 
@@ -127,12 +126,12 @@ public function edit(Formation $formation, Request $request): Response{
 }
         
     /**
-     * @Route("/formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
+     * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontainadmin")
      * @param type $champ
      * @param Request $request
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table=""): Response{
+    public function findAllContainAdmin($champ, Request $request, $table=""): Response{
         if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))){
 
             $valeur = $request->get("recherche");

@@ -55,6 +55,11 @@ class CategorieRepository extends ServiceEntityRepository
                 ->getResult();        
     }
 
+    /**
+     * Vérifie que le nom n'est pas déjà pris
+     * @param Categorie $categorie
+     * @return bool
+     */
         public function checkNameAvailable (Categorie $categorie):bool {
                 return (is_null($this->findOneBy(['name'=>$categorie->getName()])));
     }    
