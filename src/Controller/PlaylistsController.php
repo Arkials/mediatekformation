@@ -38,6 +38,7 @@ class PlaylistsController extends AbstractController {
       Chaine pour la page des playlist.
      */
     private const PPLAYLISTS = "pages/playlists.html.twig";
+    private const RPLAYLISTS="playlists";
     private const PPLAYLIST = "pages/playlist.html.twig";
     
     function __construct(PlaylistRepository $playlistRepository, 
@@ -96,26 +97,31 @@ class PlaylistsController extends AbstractController {
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table=""): Response{        
-        $valeur = $request->get("recherche");
-        if($valeur=="")
-        {
-           $playlists = $this->playlistRepository->findAllOrderByName('ASC');            
-        }
-        elseif($table==""){            
-            $playlists = $this->playlistRepository->findByContainValueSameTable($champ, $valeur);  
-        }            
-        else{
-            $playlists = $this->playlistRepository->findByContainValueDifferentTable($champ, $valeur, $table);
-        }
+    public function findAllContain($champ, Request $request, $table=""): Response{
+        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token')) && $request->get("recherche")!=null){        
+            $valeur = $request->get("recherche");
+            if($valeur=="")
+            {
+               $playlists = $this->playlistRepository->findAllOrderByName('ASC');            
+            }
+            elseif($table==""){            
+                $playlists = $this->playlistRepository->findByContainValueSameTable($champ, $valeur);  
+            }            
+            else{
+                $playlists = $this->playlistRepository->findByContainValueDifferentTable($champ, $valeur, $table);
+            }
         
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
-            'playlists' => $playlists,
-            'categories' => $categories,            
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
+            $categories = $this->categorieRepository->findAll();
+            return $this->render("pages/playlists.html.twig", [
+                'playlists' => $playlists,
+                'categories' => $categories,            
+                'valeur' => $valeur,
+                'table' => $table
+            ]);        
+            }
+            else{
+                return $this->redirectToRoute(self::RPLAYLISTS);            
+        } 
     }  
     
         

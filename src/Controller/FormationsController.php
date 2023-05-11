@@ -92,7 +92,6 @@ class FormationsController extends AbstractController {
             return $this->render(self::PFORMATIONS, [
                 'formations' => $formations,
                 'categories' => $categories,
-                'valeur' => $valeur,
             ]);
         }
         else{

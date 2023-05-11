@@ -163,25 +163,29 @@ class AdminPlaylistsController extends AbstractController {
      * @return Response
      */
     public function findAllContain($champ, Request $request, $table=""): Response{        
-        $valeur = $request->get("recherche");
-        if($valeur=="")
-        {
-           $playlists = $this->playlistRepository->findAllOrderByName('ASC');            
-        }
-        elseif($table==""){            
-            $playlists = $this->playlistRepository->findByContainValueSameTable($champ, $valeur);  
-        }            
-        else{
-            $playlists = $this->playlistRepository->findByContainValueDifferentTable($champ, $valeur, $table);
-        }
-        
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
-            'playlists' => $playlists,
-            'categories' => $categories,            
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
+        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token')) && $request->get("recherche")!=null){        
+            $valeur = $request->get("recherche");
+            if($valeur=="")
+            {
+               $playlists = $this->playlistRepository->findAllOrderByName('ASC');            
+            }
+            elseif($table==""){            
+                $playlists = $this->playlistRepository->findByContainValueSameTable($champ, $valeur);  
+            }            
+            else{
+                $playlists = $this->playlistRepository->findByContainValueDifferentTable($champ, $valeur, $table);
+            }        
+            $categories = $this->categorieRepository->findAll();
+            return $this->render("pages/playlists.html.twig", [
+                'playlists' => $playlists,
+                'categories' => $categories,            
+                'valeur' => $valeur,
+                'table' => $table
+            ]);        
+            }
+            else{
+                return $this->redirectToRoute(self::R_PLAYLISTS_ADMIN);            
+        } 
     }  
     
         
