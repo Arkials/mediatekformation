@@ -37,7 +37,7 @@ class AdminCategoriesController extends AbstractController {
     
     /**
      * Affiche la page et valide le formulaire si rempli de façon valide
-     * @Route("admin/categories", name="categories")
+     * @Route("admin/categories", name="admin.categories")
      * @param Request $request
      * @return Response
      */
