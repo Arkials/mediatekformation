@@ -11,7 +11,7 @@ jobs:
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp://89.117.169.139
+          server: ftp://89.117.169.139:21
           server-dir: /home/u414510309/domains/cg-mediatekformation.online/
           username: u414510309.u414510309
           password: ${{ secrets.ftp_password }}
