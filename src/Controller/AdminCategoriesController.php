@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCategoriesController extends AbstractController {
     
     const PCATEGORIES="admin/admin.categories.html.twig";
-    CONST R_CATEGORIES_ADMIN="categories";
+    CONST R_CATEGORIES_ADMIN="admin.categories";
     
     /**
      * Repository des catégories

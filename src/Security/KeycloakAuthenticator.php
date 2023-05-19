@@ -113,7 +113,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
      * @return Response|null
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
-            $targetUrl= $this->router->generate('categories');
+            $targetUrl= $this->router->generate('admin.categories');
             return new RedirectResponse($targetUrl);
     }
 
