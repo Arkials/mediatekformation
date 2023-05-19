@@ -164,6 +164,11 @@ class Formation
         return $this->categories;
     }
 
+    /**
+     * Ajout d'une catégorie
+     * @param Categorie $category
+     * @return self
+     */
     public function addCategory(Categorie $category): self
     {
         if (!$this->categories->contains($category)) {
@@ -173,6 +178,11 @@ class Formation
         return $this;
     }
 
+    /**
+     * Suppression d'une catégorie
+     * @param Categorie $category
+     * @return self
+     */
     public function removeCategory(Categorie $category): self
     {
         $this->categories->removeElement($category);

@@ -60,6 +60,11 @@ class Categorie
         return $this->formations;
     }
 
+    /**
+     * Ajout d'une formation
+     * @param Formation $formation
+     * @return self11
+     */
     public function addFormation(Formation $formation): self
     {
         if (!$this->formations->contains($formation)) {
@@ -70,6 +75,11 @@ class Categorie
         return $this;
     }
 
+    /**
+     * Suppression d'une formation
+     * @param Formation $formation
+     * @return self
+     */
     public function removeFormation(Formation $formation): self
     {
         if ($this->formations->removeElement($formation)) {

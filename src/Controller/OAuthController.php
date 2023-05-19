@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class OAuthController extends AbstractController
 {
     /**
+     * Redirection du client vers keycloak 
      * @Route("/oauth/login", name="oauth_login")
      */
     public function index(ClientRegistry $clientRegistry): RedirectResponse
@@ -20,6 +21,7 @@ class OAuthController extends AbstractController
         return $clientRegistry->getClient('keycloak')->redirect();
     }
     /**
+     * Route de redirection de retour
      * @Route ("/oauth/callback", name="oauth_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry){
@@ -27,6 +29,7 @@ class OAuthController extends AbstractController
     }
     
     /**
+     * Déconnexion de l'utilisateur 
      * @Route("/logout", name="logout")
      */    
     public function logout(){

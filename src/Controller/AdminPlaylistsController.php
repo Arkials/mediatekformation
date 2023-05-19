@@ -41,7 +41,6 @@ class AdminPlaylistsController extends AbstractController {
      */
     private const P_PLAYLISTS_ADMIN = "admin/admin.playlists.html.twig";
     private const P_PLAYLIST_AJOUT="admin/admin.playlist.ajout.html.twig";
-    private const R_PLAYLIST_AJOUT="admin.playlist.ajout";
     private const P_PLAYLIST_EDIT="admin/admin.playlist.edit.html.twig";
     private const R_PLAYLISTS_ADMIN= "admin.playlists";
     
@@ -54,6 +53,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
+     * Affichage de la page de gestion des playlists
      * @Route("/admin/playlists", name="admin.playlists")
      * @return Response
      */
@@ -68,6 +68,7 @@ class AdminPlaylistsController extends AbstractController {
     
     
     /**
+     * Affichage de la page d'ajout des playlists, validation si formulaire correct
      * @Route("/admin/playlist/ajout", name="admin.playlist.ajout")
      * @param Request $request
      * @return Response
@@ -91,6 +92,7 @@ class AdminPlaylistsController extends AbstractController {
     
     
     /**
+     * Affichage de la page de modification d'une playlist, modification si formulaire correct
      * @Route("/admin/playlist/edit/{id}", name="admin.playlist.edit")
      * @param Playlist $playlist
      * @param Request $request
@@ -112,8 +114,9 @@ class AdminPlaylistsController extends AbstractController {
         ]);        
 }
 
-/**
-      * @Route("/admin/playlist/suppr/{id}", name="admin.playlist.suppr")
+    /** 
+     * Suppression d'une playlist si non liée à une formation
+      * @Route("/admin/playlist/suppr/{id}", name="admin.playlist.suppr")       
       * @param Playlist $playlist
       * @return Response
       */
@@ -128,6 +131,7 @@ class AdminPlaylistsController extends AbstractController {
     }
 
     /**
+     * Tri d'une playlist selon le nom et l'ordre
      * @Route("/playlists/tri/{champ}/{ordre}", name="playlists.sort")
      * @param type $champ
      * @param type $ordre
@@ -156,6 +160,7 @@ class AdminPlaylistsController extends AbstractController {
     }         
     
     /**
+     * Méthode de recherche d'une playlist selon un champ et une table 
      * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
      * @param type $champ
      * @param Request $request

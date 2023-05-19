@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormationsController extends AbstractController {
 
     /**
-     * 
+     * Repository des formations
      * @var FormationRepository
      */
     private $formationRepository;
@@ -26,7 +26,7 @@ class FormationsController extends AbstractController {
     private const PFORMATION ="pages/formation.html.twig";
     
     /**
-     * 
+     * Repository des catégories
      * @var CategorieRepository
      */
     private $categorieRepository;
@@ -37,6 +37,7 @@ class FormationsController extends AbstractController {
     }
     
     /**
+     * Affichage de la page
      * @Route("/formations", name="formations")
      * @return Response
      */
@@ -51,6 +52,7 @@ class FormationsController extends AbstractController {
 
    
     /**
+     * Tri sur des formations selon un champ, un ordre et une table
      * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -72,6 +74,7 @@ class FormationsController extends AbstractController {
     }        
     
     /**
+     * Recherche sur les formations selon un champ et une table
      * @Route("formations/recherche/{champ}/{table}", name="formations.findallcontain")
      * @param type $champ
      * @param Request $request
@@ -102,6 +105,7 @@ class FormationsController extends AbstractController {
     
     
     /**
+     * Affichage des détails d'une formation
      * @Route("/formations/formation/{id}", name="formations.showone")
      * @param type $id
      * @return Response

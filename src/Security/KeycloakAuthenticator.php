@@ -39,7 +39,11 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         $this->router = $router;
         
     }
-    
+    /**
+     * Fonction de lien entre la bdd et keycloak
+     * @param Request $request
+     * @return Passport
+     */
     public function authenticate(Request $request): Passport {
        $client = $this->clientRegistry->getClient('keycloak');
        $accessToken = $this->fetchAccessToken($client);
@@ -80,21 +84,44 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
         })
     );        
     }
-    
+    /**
+     * Fonction démarrant la connexion
+     * @param Request $request
+     * @param AuthenticationException $authException
+     * @return Response
+     */
     public function start(Request $request, AuthenticationException $authException = null): Response {
         return new RedirectResponse( '/oauth/login', Response::HTTP_TEMPORARY_REDIRECT );         
     }	
     
+    /**
+     * Cas d'erreur d'authenfication
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return Response|null
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
+    /**
+     * Cas d'authentification réussie
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $firewallName
+     * @return Response|null
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
             $targetUrl= $this->router->generate('categories');
             return new RedirectResponse($targetUrl);
     }
 
+    /**
+     * Renvoie true si le système doit déclencher l'authenfication en fonction de l'URL
+     * @param Request $request
+     * @return bool|null
+     */
     public function supports(Request $request): ?bool {
         return $request->attributes->get('_route') === 'oauth_check';
     }

@@ -76,6 +76,11 @@ class Playlist
         return $this->formations;
     }
 
+    /**
+     * Ajout d'une formation
+     * @param Formation $formation
+     * @return self
+     */
     public function addFormation(Formation $formation): self
     {
         if (!$this->formations->contains($formation)) {
@@ -86,6 +91,11 @@ class Playlist
         return $this;
     }
 
+    /**
+     * Suppression d'une formation
+     * @param Formation $formation
+     * @return self
+     */
     public function removeFormation(Formation $formation): self
     {
         if ($this->formations->removeElement($formation)&&$formation->getPlaylist() === $this) {

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminFormationsController extends AbstractController {
 
     /**
-     * 
+     * Repository des formations
      * @var FormationRepository
      */
     private $formationRepository;
@@ -28,7 +28,7 @@ class AdminFormationsController extends AbstractController {
     private const R_FORMATIONS_ADMIN= "admin.formations";
     
     /**
-     * 
+     * Repository des catégories
      * @var CategorieRepository
      */
     private $categorieRepository;
@@ -39,6 +39,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Affichage de la page de gestion des formations
      * @Route("/admin/formations", name="admin.formations")
      * @return Response
      */
@@ -52,6 +53,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Affichage de la page d'ajout et validation d'un ajout si formulaire correct
      * @Route("/admin/formation/ajout", name="admin.formation.ajout")
      * @param Request $request
      * @return Response
@@ -73,9 +75,10 @@ class AdminFormationsController extends AbstractController {
     }    
     
       /**
-      * @Route("/admin/formations/suppr/{id}", name="admin.formations.suppr")
-      * @param Formation $formation
-      * @return Response
+       * Méthode de suppression d'une formation
+        * @Route("/admin/formations/suppr/{id}", name="admin.formations.suppr")
+        * @param Formation $formation
+        * @return Response
       */
     public function suppr(Formation $formation): Response{
         $this->formationRepository->remove($formation, true);
@@ -83,6 +86,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
+     * Méthode de tri sur les formations en fonction de la table, du champs et de l'ordre
      * @Route("admin/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -103,29 +107,32 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
     
-/**
+   /**
+     * Méthode d'affichage de la page de modification d'une formation
+     * et validation de la modification d'une formation 
      * @Route("/admin/formations/edit/{id}", name="admin.formations.edit")
      * @param Formation $formation
      * @param Request $request
      * @return Response
      */
-public function edit(Formation $formation, Request $request): Response{
-    $formFormation = $this->createForm(FormationType::class, $formation);
+    public function edit(Formation $formation, Request $request): Response{
+        $formFormation = $this->createForm(FormationType::class, $formation);
 
-    $formFormation->handleRequest($request);
-    
-    if($formFormation->isSubmitted() && $formFormation->isValid()){
-        $this->formationRepository->add($formation, true);
-        return $this->redirectToRoute(self::R_FORMATIONS_ADMIN);
-    }     
+        $formFormation->handleRequest($request);
 
-    return $this->render(self::P_FORMATION_EDIT, [
-        'formation' => $formation,
-        'formFormation' => $formFormation->createView()
-    ]);        
-}
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
+            $this->formationRepository->add($formation, true);
+            return $this->redirectToRoute(self::R_FORMATIONS_ADMIN);
+        }     
+
+        return $this->render(self::P_FORMATION_EDIT, [
+            'formation' => $formation,
+            'formFormation' => $formFormation->createView()
+        ]);        
+    }
         
     /**
+     * Méthode de recherche sur le nom d'une formation
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontainadmin")
      * @param type $champ
      * @param Request $request
@@ -154,6 +161,7 @@ public function edit(Formation $formation, Request $request): Response{
     
     
     /**
+     * Méthode d'affichage des détails d'une formation
      * @Route("admin/formations/formation/{id}", name="admin.formations.showone")
      * @param type $id
      * @return Response

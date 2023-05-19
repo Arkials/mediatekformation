@@ -27,6 +27,7 @@ class AdminCategoriesController extends AbstractController {
     CONST R_CATEGORIES_ADMIN="categories";
     
     /**
+     * Repository des catégories
      * @var CategorieRepository 
      */
     private $categorieRepository;
@@ -72,7 +73,8 @@ class AdminCategoriesController extends AbstractController {
     
     
     
-/**
+    /**
+      * Méthode de suppression d'une catégorie
       * @Route("/admin/categories/suppr/{id}", name="admin.categories.suppr")
       * @param Categorie $categorie
       * @return Response

@@ -17,26 +17,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlaylistsController extends AbstractController {
     
     /**
-     * 
+     * Repository des playlists
      * @var PlaylistRepository
      */
     private $playlistRepository;
     
     /**
-     * 
+     * Repository des formations
      * @var FormationRepository
      */
     private $formationRepository;
     
     /**
-     * 
+     * Repository des catégories
      * @var CategorieRepository
      */
     private $categorieRepository;   
     
-    /**
-      Chaine pour la page des playlist.
-     */
+    
     private const PPLAYLISTS = "pages/playlists.html.twig";
     private const RPLAYLISTS="playlists";
     private const PPLAYLIST = "pages/playlist.html.twig";
@@ -50,6 +48,7 @@ class PlaylistsController extends AbstractController {
     }
     
     /**
+     * Affichage de la page des playlists
      * @Route("/playlists", name="playlists")
      * @return Response
      */
@@ -63,6 +62,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Tru selon un champ et un ordre 
      * @Route("/playlists/tri/{champ}/{ordre}", name="playlists.sort")
      * @param type $champ
      * @param type $ordre
@@ -91,6 +91,7 @@ class PlaylistsController extends AbstractController {
     }         
     
     /**
+     * Recherche selon un champ et une table
      * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
      * @param type $champ
      * @param Request $request
@@ -127,6 +128,7 @@ class PlaylistsController extends AbstractController {
         
 
     /**
+     * Affichage d'une playlist
      * @Route("/playlists/playlist/{id}", name="playlists.showone")
      * @param type $id
      * @return Response
