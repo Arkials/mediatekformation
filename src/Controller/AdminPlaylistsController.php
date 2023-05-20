@@ -132,7 +132,7 @@ class AdminPlaylistsController extends AbstractController {
 
     /**
      * Tri d'une playlist selon le nom et l'ordre
-     * @Route("/playlists/tri/{champ}/{ordre}", name="playlists.sort")
+     * @Route("admin/playlists/tri/{champ}/{ordre}", name="admin.playlists.sort")
      * @param type $champ
      * @param type $ordre
      * @return Response
@@ -161,7 +161,7 @@ class AdminPlaylistsController extends AbstractController {
     
     /**
      * Méthode de recherche d'une playlist selon un champ et une table 
-     * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
+     * @Route("admin/playlists/recherche/{champ}/{table}", name="admin.playlists.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
