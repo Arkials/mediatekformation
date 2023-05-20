@@ -153,7 +153,7 @@ class AdminPlaylistsController extends AbstractController {
         }
                 
         $categories = $this->categorieRepository->findAll();
-        return $this->render(self::PPLAYLISTS, [
+        return $this->render(self::P_PLAYLISTS_ADMIN, [
             'playlists' => $playlists,
             'categories' => $categories            
         ]);
@@ -181,7 +181,7 @@ class AdminPlaylistsController extends AbstractController {
                 $playlists = $this->playlistRepository->findByContainValueDifferentTable($champ, $valeur, $table);
             }        
             $categories = $this->categorieRepository->findAll();
-            return $this->render("pages/playlists.html.twig", [
+            return $this->render(self::P_PLAYLISTS_ADMIN, [
                 'playlists' => $playlists,
                 'categories' => $categories,            
                 'valeur' => $valeur,
